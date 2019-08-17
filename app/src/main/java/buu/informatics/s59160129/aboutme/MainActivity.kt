@@ -13,6 +13,7 @@ import buu.informatics.s59160129.aboutme.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private val myName: MyName = MyName("Warunyu Seesuan")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -24,16 +25,19 @@ class MainActivity : AppCompatActivity() {
             nicknameText.setOnClickListener {
                 updateNickname(it)
             }
+            this.myName = this@MainActivity.myName
         }
+
     }
 
     private fun addNickname(view: View) {
 
         binding.apply {
-            binding.nicknameText.text = binding.nicknameEdit.text
-            binding.nicknameEdit.visibility = View.GONE
-            view.visibility = View.GONE
-            binding.nicknameText.visibility = View.VISIBLE
+            myName?.nickname = nicknameEdit.text.toString()
+            nicknameEdit.visibility = View.GONE
+            doneButton.visibility = View.GONE
+            nicknameText.visibility = View.VISIBLE
+            invalidateAll()
         }
         // Hide the keyboard.
         val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -42,11 +46,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateNickname(view: View) {
         binding.apply {
-            binding.nicknameEdit.visibility = View.VISIBLE
-            binding.doneButton.visibility = View.VISIBLE
+            nicknameEdit.visibility = View.VISIBLE
+            doneButton.visibility = View.VISIBLE
             view.visibility = View.GONE
             // Set the focus to the edit text.
-            binding.nicknameEdit.requestFocus()
+            nicknameEdit.requestFocus()
             // Show the keyboard.
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(nicknameEdit, 0)
